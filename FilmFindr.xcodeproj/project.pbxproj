@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D58D6E562EF1D652004E8214 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = D58D6E552EF1D652004E8214 /* Secrets.plist */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		D58D6DE12EF08020004E8214 /* FilmFindr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilmFindr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D58D6E552EF1D652004E8214 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		D58D6DD82EF08020004E8214 = {
 			isa = PBXGroup;
 			children = (
+				D58D6E552EF1D652004E8214 /* Secrets.plist */,
 				D58D6DE32EF08020004E8214 /* FilmFindr */,
 				D58D6DE22EF08020004E8214 /* Products */,
 			);
@@ -122,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D58D6E562EF1D652004E8214 /* Secrets.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +176,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TMDB_TOKEN = eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MTIyYmMyNGIyNDQ3ZTM1OGU5MTJhYTA2YmRkMmEzMyIsIm5iZiI6MTcwOTA3NjM5NC40MTEsInN1YiI6IjY1ZGU2ZmFhYjM5ZTM1MDE4NjJmMWUwOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OmcbeG9_S460YWCgQtkUxHloi2wWXuSqtKcT6dHLipY;
 			};
 			name = Debug;
 		};
@@ -203,6 +211,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TMDB_TOKEN = eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MTIyYmMyNGIyNDQ3ZTM1OGU5MTJhYTA2YmRkMmEzMyIsIm5iZiI6MTcwOTA3NjM5NC40MTEsInN1YiI6IjY1ZGU2ZmFhYjM5ZTM1MDE4NjJmMWUwOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OmcbeG9_S460YWCgQtkUxHloi2wWXuSqtKcT6dHLipY;
 			};
 			name = Release;
 		};

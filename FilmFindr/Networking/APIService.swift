@@ -5,12 +5,13 @@
 //  Created by Carlos Strassburger Filho on 16/12/25.
 //
 
-import Foundation
+import UIKit
 
 class APIService {
     
     private let bearerToken: String
     private let baseURL = "https://api.themoviedb.org/3"
+    private let imageCache = NSCache<NSString, UIImage>()
     
     init() {
         guard let url = Bundle.main.url(forResource: "Secrets", withExtension: "plist"),
@@ -28,6 +29,27 @@ class APIService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         return request
+    }
+    
+    func downloadImage(from urlString: String) async throws -> UIImage {
+        let cacheKey = NSString(string: urlString)
+        
+        if let cachedImage = imageCache.object(forKey: cacheKey) {
+            return cachedImage
+        }
+        
+        guard let url = URL(string: urlString) else {
+            throw FFError.invalidURL
+        }
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+        
+        guard let image = UIImage(data: data) else {
+            throw FFError.invalidData
+        }
+        
+        imageCache.setObject(image, forKey: cacheKey)
+        return image
     }
     
     func fetchMovieList(for type: FFListType) async throws -> MovieResponse {
@@ -51,17 +73,4 @@ class APIService {
             throw FFError.invalidData
         }
     }
-    
-}
-
-enum FFError: Error {
-    case invalidURL
-    case invalidResponse
-    case invalidData
-}
-
-enum FFListType: String {
-    case popularMovies = "/movie/popular"
-    case topRated = "/movie/top_rated"
-    case upcomingMovies = "/movie/upcoming"
 }

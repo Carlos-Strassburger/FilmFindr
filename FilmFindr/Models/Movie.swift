@@ -11,4 +11,9 @@ struct Movie: Codable, Hashable, Sendable {
     let id: Int
     let title: String
     let posterPath: String?
+    let backdropPath: String?
+    let releaseDate: String?
+    let voteAverage: Float?
+    let overview: String?
+    
 }

@@ -38,9 +38,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return UINavigationController(rootViewController: favoritesVC)
     }
     
+    
     func createTabBar() -> UITabBarController {
         let tabBar = UITabBarController()
-        UITabBar.appearance().tintColor = .systemPurple
+        UITabBar.appearance().tintColor = .systemGreen
         tabBar.viewControllers = [createMovieListNC(), createFavoritesNC()]
         
         return tabBar

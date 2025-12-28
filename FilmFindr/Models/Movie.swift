@@ -15,5 +15,5 @@ struct Movie: Codable, Hashable, Sendable {
     let releaseDate: String?
     let voteAverage: Float?
     let overview: String?
-    
+    let runtime: Int?
 }

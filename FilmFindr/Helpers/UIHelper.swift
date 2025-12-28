@@ -8,6 +8,7 @@
 import UIKit
 
 enum UIHelper {
+    
     static func createHomeLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
             let isBigSection = (sectionIndex == 0)
@@ -32,5 +33,46 @@ enum UIHelper {
             section.boundarySupplementaryItems = [headerItem]
             return section
         }
+    }
+    
+    static func addGradient(to imageView: UIImageView, color: UIColor) {
+        imageView.layer.sublayers?.filter { $0 is CAGradientLayer }.forEach { $0.removeFromSuperlayer() }
+        let gradient = CAGradientLayer()
+        gradient.frame = imageView.bounds
+        
+        gradient.colors = [
+            UIColor.clear.cgColor,
+            color.withAlphaComponent(0.8).cgColor,
+            color.cgColor
+        ]
+        
+        gradient.locations = [0.0, 0.9, 1.0]
+        imageView.layer.addSublayer(gradient)
+    }
+    
+    static func createMetaDataItem(text: String, symbolName: String) -> UIStackView {
+        let icon = UIImageView()
+        let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
+        icon.image = UIImage(systemName: symbolName, withConfiguration: config)
+        icon.tintColor = .secondaryLabel
+        icon.contentMode = .scaleAspectFit
+        
+        let label = UILabel()
+        label.text = text
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .secondaryLabel
+        
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        icon.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        
+        let stackView = UIStackView(arrangedSubviews: [icon, label])
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.alignment = .center
+        
+        return stackView
     }
 }

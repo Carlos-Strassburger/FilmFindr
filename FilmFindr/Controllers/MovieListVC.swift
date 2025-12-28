@@ -133,8 +133,7 @@ extension MovieListVC: UICollectionViewDelegate {
         guard let movie = getMovie(for: indexPath) else { return }
         
         let detailVC = MovieDetailVC()
-        detailVC.movieID = movie.id
-        detailVC.title = movie.title
+        detailVC.movie = movie
         
         navigationController?.pushViewController(detailVC, animated: true)
     }

@@ -73,4 +73,26 @@ class APIService {
             throw FFError.invalidData
         }
     }
+    
+    func fetchMovieDetails(for id: Int) async throws -> Movie {
+        guard let url = URL(string: "\(baseURL)/movie/\(id)") else {
+            throw FFError.invalidURL
+        }
+        
+        let request = authenticatedRequest(for: url)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw FFError.invalidResponse
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(Movie.self, from: data)
+        } catch {
+            throw FFError.invalidData
+        }
+    }
 }

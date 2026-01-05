@@ -27,6 +27,16 @@ class MovieDetailVC: UIViewController {
         return iv
     }()
     
+    private lazy var favoriteButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "heart"),
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(favoriteButtonTapped))
+        button.tintColor = .systemGreen
+        
+        return button
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -63,6 +73,7 @@ class MovieDetailVC: UIViewController {
         setupLayout()
         setupNavTitle()
         configureMetaData()
+        checkFavoriteStatus()
         
         Task {
             await fetchMovieDetails()
@@ -131,6 +142,41 @@ class MovieDetailVC: UIViewController {
         appearance.configureWithTransparentBackground()
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        navigationItem.rightBarButtonItem = favoriteButton
+    }
+    
+    @objc private func favoriteButtonTapped() {
+        guard let movie = movie else { return }
+        
+        let favorites = PersistanceManager.retrieveFavorites()
+        let isFavorite = favorites.contains(where: {$0.id == movie.id })
+        
+        let actionType: PersistanceActionType = isFavorite ? .remove : .add
+        
+        PersistanceManager.updateWith(favorite: movie, actionType: actionType) { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error saving favorite: \(error)")
+                return
+            }
+        }
+        
+        DispatchQueue.main.async {
+            let newImage = actionType == .add ? "heart.fill" : "heart"
+            self.favoriteButton.image = UIImage(systemName: newImage)
+            
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.impactOccurred()
+        }
+    }
+    
+    private func checkFavoriteStatus() {
+        guard let movie = movie else { return }
+        let favorites = PersistanceManager.retrieveFavorites()
+        let isFavorite = favorites.contains(where: {$0.id == movie.id })
+        
+        favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
     }
     
     private func fetchMovieDetails() async {
@@ -148,7 +194,9 @@ class MovieDetailVC: UIViewController {
             if let path = detailedMovie.backdropPath {
                 let urlString = "https://image.tmdb.org/t/p/w1280\(path)"
                 let image = try await apiService.downloadImage(from: urlString)
-                self.backdropImageView.image = image
+                await MainActor.run {
+                    self.backdropImageView.image = image
+                }
             }
         } catch {
             print("error loading details: \(error)" )

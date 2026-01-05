@@ -107,12 +107,10 @@ extension MovieListVC: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let movie = getMovie(for: indexPath)
+        guard let movie = getMovie(for: indexPath) else { return cell }
         let isHero = (indexPath.section == 0)
         
-        
-        let imagePath = isHero ? movie?.backdropPath : movie?.posterPath
-        cell.configure(with: imagePath, isHero: isHero, apiService: self.apiService)
+        cell.configure(with: movie, isHero: isHero, apiService: self.apiService)
         
         return cell
     }

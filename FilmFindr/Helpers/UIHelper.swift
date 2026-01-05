@@ -42,12 +42,30 @@ enum UIHelper {
         
         gradient.colors = [
             UIColor.clear.cgColor,
-            color.withAlphaComponent(0.8).cgColor,
-            color.cgColor
+            UIColor.black.withAlphaComponent(0.8).cgColor,
+            UIColor.black.cgColor
         ]
         
-        gradient.locations = [0.0, 0.9, 1.0]
-        imageView.layer.addSublayer(gradient)
+        gradient.locations = [0.4, 0.8, 1.0]
+        imageView.layer.insertSublayer(gradient, at: 0)
+    }
+    
+    static func addHeroGradient(to imageView: UIImageView) {
+        imageView.layer.sublayers?.filter { $0 is CAGradientLayer }.forEach { $0.removeFromSuperlayer() }
+        
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = imageView.bounds
+        
+        gradient.colors = [
+            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(0.5).cgColor, // Mid-point blend
+            UIColor.black.withAlphaComponent(0.95).cgColor // Heavy bottom
+        ]
+
+        gradient.locations = [0.3, 0.7, 1.0]
+
+        imageView.layer.insertSublayer(gradient, at: 0)
     }
     
     static func createMetaDataItem(text: String, symbolName: String) -> UIStackView {

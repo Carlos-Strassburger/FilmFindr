@@ -54,9 +54,7 @@ Instead of `UICollectionViewDataSource` methods, I've opted to use `NSDiffableDa
 * A TMDB API Key
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/yourusername/FilmFindr.git](https://github.com/yourusername/FilmFindr.git)
+1. Clone the repository
 2. Create a Secrets.plist file in project scope folder
 * Add a pair Key called `TMDB_BEARER_TOKEN`
 * The value to be added is your TMDB API Key

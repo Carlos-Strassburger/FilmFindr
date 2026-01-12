@@ -59,13 +59,26 @@ enum UIHelper {
         
         gradient.colors = [
             UIColor.clear.cgColor,
-            UIColor.black.withAlphaComponent(0.5).cgColor, // Mid-point blend
-            UIColor.black.withAlphaComponent(0.95).cgColor // Heavy bottom
+            UIColor.black.withAlphaComponent(0.5).cgColor,
+            UIColor.black.withAlphaComponent(0.95).cgColor
         ]
 
         gradient.locations = [0.3, 0.7, 1.0]
 
         imageView.layer.insertSublayer(gradient, at: 0)
+    }
+    
+    static func createTableStyleLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(100))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        return UICollectionViewCompositionalLayout(section: section)
     }
     
     static func createMetaDataItem(text: String, symbolName: String) -> UIStackView {

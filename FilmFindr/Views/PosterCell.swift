@@ -82,21 +82,10 @@ class PosterCell: UICollectionViewCell {
         }
         
         let quality = isHero ? "w1280" : "w500"
-        let urlString = "https://image.tmdb.org/t/p/\(quality)\(path)"
         
         downloadTask?.cancel()
         
-        downloadTask = Task {
-            do {
-                let image = try await apiService.downloadImage(from: urlString)
-                
-                if !Task.isCancelled {
-                    self.imageView.image = image
-                }
-            } catch {
-                self.imageView.image = UIImage(named: "poster-placeholder")
-            }
-        }
+        downloadTask = imageView.setImage(from: path, quality: quality, apiService: apiService)
         
         setNeedsLayout()
     }
